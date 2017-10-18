@@ -1,6 +1,6 @@
 # Data Structures and Algorithms - Part I
 
-Solution to problem assigments of Data Structures and Algorithms - Part I by Princeton University offered in Coursera platform
+Solution to problem assigments of [Data Structures and Algorithms - Part I](https://www.coursera.org/learn/algorithms-part1) by Princeton University offered in Coursera platform
 
 ## Assignment #1
 
