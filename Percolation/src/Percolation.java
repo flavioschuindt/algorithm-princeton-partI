@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -6,12 +7,14 @@ public class Percolation {
 		OPEN, BLOCKED;
 	}
 	
-	private int n;
+	private final int n;
 	private State lattice[][];
-	private WeightedQuickUnionUF uf;
+	private final WeightedQuickUnionUF uf;
 	private int numberOfOpenSites;
 	
 	public Percolation(int n) {
+		if (n <= 0)
+			throw new java.lang.IllegalArgumentException();
 		this.n = n;
 		this.lattice = new State[n][n];
 		this.uf = new WeightedQuickUnionUF(n * n + 2);
@@ -35,13 +38,16 @@ public class Percolation {
 	}
 	
 	public void open(int row, int col) {
+		if (isOpen(row, col))
+			return;
 		validatePosition(row, col);
 		this.lattice[row - 1][col - 1] = State.OPEN;
 		numberOfOpenSites++;
 		
 		if (row == 1) {
 			uf.union(getIndexFromLatticePosition(row,col), n * n); // union with top virtual node
-		}else if(col == this.n) {
+		}
+		if(row == this.n) {
 			uf.union(getIndexFromLatticePosition(row,col), n * n + 1); // union with bottom virtual node
 		}
 		
@@ -76,5 +82,18 @@ public class Percolation {
 	
 	public boolean percolates() {
 		return uf.connected(n * n, n * n+1);
+	}
+	
+	public static void main(String[] args) {
+		In in = new In(args[0]);      // input file
+        int n = in.readInt();         // n-by-n percolation system
+
+        Percolation perc = new Percolation(n);
+        while (!in.isEmpty()) {
+            int i = in.readInt();
+            int j = in.readInt();
+            perc.open(i, j);
+            System.out.println(perc.percolates());
+        }
 	}
 }
